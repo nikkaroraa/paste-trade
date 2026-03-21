@@ -42,9 +42,17 @@ export async function getTradeById(tradeId: string) {
 
 export async function upsertTrade(input: Partial<Trade> & Pick<Trade, "ticker" | "asset_type" | "direction" | "source">) {
   const db = await readDb();
-  const existing = input.source_post_id
-    ? db.trades.find((t) => t.source_post_id && t.source_post_id === input.source_post_id)
-    : undefined;
+  const existing = db.trades.find((t) => {
+    if (input.source_post_id && t.source_post_id === input.source_post_id) return true;
+    if (input.source_url && t.source_url === input.source_url && t.ticker === input.ticker) return true;
+    return Boolean(
+      input.author_id &&
+        t.author_id === input.author_id &&
+        t.ticker === input.ticker &&
+        t.direction === input.direction &&
+        t.created_at.slice(0, 10) === new Date().toISOString().slice(0, 10)
+    );
+  });
 
   if (existing) {
     const updated = { ...existing, ...input, updated_at: now() } as Trade;

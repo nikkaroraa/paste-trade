@@ -11,16 +11,24 @@ export interface RedditPost {
   subreddit: string;
 }
 
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 export async function scrapeReddit(): Promise<RedditPost[]> {
   const out: RedditPost[] = [];
 
   for (const sub of SUBS) {
     try {
       const res = await fetch(`https://reddit.com/r/${sub}/hot.json?limit=20`, {
-        headers: { "User-Agent": "paste-trade-mvp/1.0" },
+        headers: { "User-Agent": "paste-trade/1.0 by nikkaroraa" },
         next: { revalidate: 300 },
       });
+
+      if (res.status === 429) {
+        await sleep(1000);
+        continue;
+      }
       if (!res.ok) continue;
+
       const json = await res.json();
       const children = json?.data?.children ?? [];
 
@@ -38,6 +46,7 @@ export async function scrapeReddit(): Promise<RedditPost[]> {
           subreddit: sub,
         });
       }
+      await sleep(250);
     } catch {
       continue;
     }
