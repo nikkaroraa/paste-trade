@@ -9,14 +9,30 @@ Return JSON:
   "thesis": "2-3 sentence reasoning",
   "confidence": "high|medium|low",
   "timeframe": "1d|1w|1m|3m|unknown",
-  "key_catalysts": ["catalyst 1", "catalyst 2"],
+  "key_catalysts": ["catalyst 1"],
   "risks": ["risk 1"]
 }
 
 Rules:
-- Only extract if there is a clear directional call
+- Only extract if there is a clear SINGLE directional call
 - I think X will go up = valid trade
 - Interesting to watch X = not valid
+- Pair trades (long X and short Y simultaneously) are NOT valid trades - set has_trade: false. A pair trade hedges both sides and has no single directional conviction.
 - News: infer the trade from the event
-- Be conservative with confidence
-- If no trade found, return has_trade: false
+- For prediction markets (e.g. "bet YES on BTC100", "buying YES on PRES24"), use the full market symbol as the ticker (e.g. BTC100, PRES24), NOT the underlying asset. Set asset_type to "prediction" and direction to "yes" or "no".
+
+Confidence guidelines - be conservative:
+- "high" = the author states a definitive opinion ("I think X wins", "X is going to Y", "conviction trade") or uses language that leaves little room for doubt. An unhedged declarative prediction counts as high conviction.
+- "medium" = default for most clear directional calls, including news-driven trades and stated opinions that don't rise to high conviction
+- "low" = speculative, hedged language, relative value plays (e.g. "X usually follows Y"), correlation-based trades, or when the author expresses uncertainty. If the thesis depends on one asset following another rather than a direct catalyst, use low.
+
+Timeframe guidelines:
+- Use the explicit timeframe if stated (e.g. "for a month" = 1m, "this week" = 1w)
+- For prediction markets with a known event date (e.g. elections, scheduled events), infer the timeframe based on how far away the event is. Use 3m as default for prediction markets if the event is more than a month away.
+- Only use "unknown" if there is genuinely no way to infer a holding period from the text or context
+
+Output constraints:
+- key_catalysts: list exactly 1 catalyst - the single most important driver. Keep it concise (2-5 words).
+- risks: list exactly 1 risk - the single most important counterpoint. Keep it concise (2-5 words).
+- thesis: keep to 2 concise sentences. State the core reasoning and the trade type. Do not elaborate beyond what the text says.
+- If no trade found, return has_trade: false with ticker: "", empty thesis, confidence: "low", timeframe: "unknown", empty catalysts and risks arrays
