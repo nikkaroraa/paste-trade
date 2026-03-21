@@ -1,0 +1,6 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#09090B"/>
+  <rect x="48" y="48" width="1104" height="534" rx="12" fill="#18181B" stroke="#27272A"/>
+  <text x="96" y="210" fill="#34D399" font-size="56" font-family="Arial, sans-serif" font-weight="700">paste.trade</text>
+  <text x="96" y="280" fill="#F4F4F5" font-size="42" font-family="Arial, sans-serif" font-weight="700">Receipts for trade calls</text>
+</svg>
