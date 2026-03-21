@@ -14,25 +14,26 @@ Return JSON:
 }
 
 Rules:
-- Only extract if there is a clear SINGLE directional call
+- Extract a trade if the author expresses ANY directional view, even if hedged, conditional, or low conviction. "Maybe long X" or "I might buy X if Y" still count as trades - set has_trade: true with confidence: "low".
+- Only set has_trade: false for: pure observation with no directional lean ("interesting to watch X"), questions with no opinion, pair trades (long X and short Y simultaneously), or text with no identifiable trade at all.
 - I think X will go up = valid trade
-- Interesting to watch X = not valid
 - Pair trades (long X and short Y simultaneously) are NOT valid trades - set has_trade: false. A pair trade hedges both sides and has no single directional conviction.
 - News: infer the trade from the event
 - For prediction markets (e.g. "bet YES on BTC100", "buying YES on PRES24"), use the full market symbol as the ticker (e.g. BTC100, PRES24), NOT the underlying asset. Set asset_type to "prediction" and direction to "yes" or "no".
 
-Confidence guidelines - be conservative:
-- "high" = the author states a clear, unhedged conviction (e.g. "I think X wins", "X is going to Y", "this is a conviction trade") without expressing doubt. Prediction market YES/NO calls where the author states a definitive outcome expectation are high confidence.
-- "medium" = default for most clear directional calls, including news-driven trades and stated opinions that don't rise to high conviction
-- "low" = speculative, hedged language, relative value plays (e.g. "X usually follows Y"), correlation-based trades, or when the author expresses uncertainty
+Confidence guidelines - default to medium:
+- "medium" = the DEFAULT. Use medium for the vast majority of trades, including: stated directional opinions ("I like upside", "I expect downside"), simple position statements ("Long X", "Short Y", "Buying X"), news-driven trades, event-driven trades, and any normal directional call. Even phrases like "I expect" or "I'm buying" are medium - these are ordinary trading language, not exceptional conviction.
+- "high" = RARE. Reserve for extraordinary conviction: the author explicitly says this is their best/highest conviction idea, uses superlatives about certainty ("absolutely", "no doubt"), explicitly sizes up, or frames the trade as a "conviction trade" or "high conviction". Also use high when the author states a definitive outcome prediction without hedging - e.g. "I think X wins", "X is going to win", "the incumbent wins" - these are declarative predictions of a specific outcome, not just directional opinions, and signal high conviction.
+- "low" = the author explicitly expresses uncertainty about their OWN directional view ("I'm not confident", "maybe", "might", "not sure"), or the trade is explicitly conditional on an uncertain event ("if the market turns risk on"). Also use low when the entire thesis depends on a historical pattern or correlation that may not hold - words like "usually", "tends to", or "often" as the PRIMARY basis for the trade indicate the author is relying on a probabilistic tendency rather than a specific catalyst, which is inherently lower conviction. E.g. "Gold usually pulls silver" as the sole reason = low. But "listings usually pop" combined with a specific upcoming listing = medium (the listing is the catalyst, not the pattern).
 
 Timeframe guidelines:
-- Use explicit timeframes when stated (e.g. "for a month" = 1m)
-- For prediction markets tied to known events (elections, scheduled dates), infer the timeframe to the event. Election markets = 3m unless the election is imminent.
-- Default to "unknown" only when no timeframe can be reasonably inferred
+- If the author explicitly states a timeframe (e.g. "for a month", "this week", "into Friday"), use it: 1d, 1w, 1m, 3m
+- If no explicit timeframe but context implies short-term action (e.g. news events, "into the close", "I expect downside"), infer the most likely timeframe: breaking news or event reactions = 1w, intraday references = 1d, "for the day" = 1d.
+- For prediction markets tied to known events, infer the timeframe from the event horizon. Default to 3m unless clearly imminent.
+- Only use "unknown" when there is genuinely no stated or inferable timeframe AND no contextual clues about duration.
 
 Output constraints:
-- key_catalysts: list exactly 1 catalyst - the single most important driver
-- risks: list exactly 1 risk - the single most important counterpoint
-- thesis: keep to 2 concise sentences. State the core reasoning and the trade type. Do not elaborate beyond what the text says.
+- key_catalysts: list 1-2 catalysts - the most important drivers. Each catalyst should be concise (2-5 words). If the text mentions two distinct catalysts, list both as separate items. Do not merge multiple catalysts into one.
+- risks: list exactly 1 risk - the single most important counterpoint. Keep it concise (2-6 words).
+- thesis: keep to 2 concise sentences. Paraphrase the author's reasoning simply and state the trade type (e.g. "short term momentum play", "macro probability trade"). Do NOT embellish, infer extra detail, or add reasoning the author did not state. Stick closely to what the text actually says.
 - If no trade found, return has_trade: false with ticker: "", empty thesis, confidence: "low", timeframe: "unknown", empty catalysts and risks arrays
