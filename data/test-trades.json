@@ -1,0 +1,527 @@
+[
+  {
+    "id": "crypto-long-btc-etf",
+    "text": "Long BTC this week. Spot ETF inflows are back and funding is still flat, so I like the upside into Friday.",
+    "expected": {
+      "has_trade": true,
+      "ticker": "BTC",
+      "asset_type": "crypto",
+      "direction": "long",
+      "thesis": "ETF inflows and neutral funding suggest room for upside into the end of the week. The trade is a short term momentum play.",
+      "confidence": "medium",
+      "timeframe": "1w",
+      "key_catalysts": ["ETF inflows", "Funding remains neutral"],
+      "risks": ["Macro risk off"]
+    }
+  },
+  {
+    "id": "crypto-short-sol-exploit",
+    "text": "Short SOL today after the bridge exploit. Liquidity is thin and I expect forced selling into the close.",
+    "expected": {
+      "has_trade": true,
+      "ticker": "SOL",
+      "asset_type": "crypto",
+      "direction": "short",
+      "thesis": "An exploit often triggers forced selling and risk aversion, which can pressure price on the day. This is a short term downside play.",
+      "confidence": "medium",
+      "timeframe": "1d",
+      "key_catalysts": ["Bridge exploit", "Forced selling pressure"],
+      "risks": ["Quick recovery on clarification"]
+    }
+  },
+  {
+    "id": "stock-long-aapl-buyback",
+    "text": "Buying AAPL for the next month. The new buyback authorization should support the stock and earnings guidance looks conservative.",
+    "expected": {
+      "has_trade": true,
+      "ticker": "AAPL",
+      "asset_type": "stock",
+      "direction": "long",
+      "thesis": "A larger buyback and conservative guidance can create a tailwind for the stock over the next few weeks. This is a near term support trade.",
+      "confidence": "medium",
+      "timeframe": "1m",
+      "key_catalysts": ["Buyback authorization", "Guidance reset"],
+      "risks": ["Macro slowdown"]
+    }
+  },
+  {
+    "id": "stock-short-tsla-margins",
+    "text": "Short TSLA over the next 3 months. Price cuts are pressuring margins and demand looks soft into Q4.",
+    "expected": {
+      "has_trade": true,
+      "ticker": "TSLA",
+      "asset_type": "stock",
+      "direction": "short",
+      "thesis": "Ongoing price cuts and soft demand can compress margins, which typically weighs on valuation. This is a medium term downside view.",
+      "confidence": "medium",
+      "timeframe": "3m",
+      "key_catalysts": ["Price cuts", "Margin pressure"],
+      "risks": ["Unexpected demand rebound"]
+    }
+  },
+  {
+    "id": "commodity-long-gold-rate-cuts",
+    "text": "Long GC (gold) into the next quarter. Real yields are rolling over and I expect more rate cut talk.",
+    "expected": {
+      "has_trade": true,
+      "ticker": "GC",
+      "asset_type": "commodity",
+      "direction": "long",
+      "thesis": "Falling real yields and growing rate cut expectations can support gold over the next quarter. This is a medium term macro trade.",
+      "confidence": "medium",
+      "timeframe": "3m",
+      "key_catalysts": ["Real yields rolling over", "Rate cut expectations"],
+      "risks": ["Dollar strength"]
+    }
+  },
+  {
+    "id": "commodity-short-crude-opec",
+    "text": "Short CL for the week. OPEC signaled higher output and the market is still long.",
+    "expected": {
+      "has_trade": true,
+      "ticker": "CL",
+      "asset_type": "commodity",
+      "direction": "short",
+      "thesis": "Higher output guidance can pressure crude, especially with crowded positioning. This is a short term downside setup.",
+      "confidence": "medium",
+      "timeframe": "1w",
+      "key_catalysts": ["OPEC output signal", "Crowded positioning"],
+      "risks": ["Geopolitical supply shock"]
+    }
+  },
+  {
+    "id": "prediction-yes-pres24",
+    "text": "I am buying YES on PRES24. Polling momentum has flipped and I think the incumbent wins.",
+    "expected": {
+      "has_trade": true,
+      "ticker": "PRES24",
+      "asset_type": "prediction",
+      "direction": "yes",
+      "thesis": "Polling momentum suggests a higher probability of the incumbent winning, so YES shares are attractive. This is a conviction trade.",
+      "confidence": "high",
+      "timeframe": "3m",
+      "key_catalysts": ["Polling momentum"],
+      "risks": ["Late cycle polling error"]
+    }
+  },
+  {
+    "id": "prediction-no-rate25",
+    "text": "Taking NO on RATE25. I do not think the Fed cuts by July given sticky services inflation.",
+    "expected": {
+      "has_trade": true,
+      "ticker": "RATE25",
+      "asset_type": "prediction",
+      "direction": "no",
+      "thesis": "Sticky inflation reduces the chance of a near term cut, so NO shares should be undervalued. This is a macro probability trade.",
+      "confidence": "medium",
+      "timeframe": "3m",
+      "key_catalysts": ["Sticky services inflation"],
+      "risks": ["Sudden growth slowdown"]
+    }
+  },
+  {
+    "id": "news-long-mrna-fda",
+    "text": "Breaking: MRNA gets FDA approval for its RSV vaccine. This should be bullish for MRNA over the next month.",
+    "expected": {
+      "has_trade": true,
+      "ticker": "MRNA",
+      "asset_type": "stock",
+      "direction": "long",
+      "thesis": "Regulatory approval expands revenue potential and often drives near term re-rating. The news implies a long trade.",
+      "confidence": "medium",
+      "timeframe": "1m",
+      "key_catalysts": ["FDA approval"],
+      "risks": ["Market already priced in approval"]
+    }
+  },
+  {
+    "id": "news-short-coin-sec",
+    "text": "SEC announces a new probe into COIN trading practices. I expect downside as legal risk rises.",
+    "expected": {
+      "has_trade": true,
+      "ticker": "COIN",
+      "asset_type": "stock",
+      "direction": "short",
+      "thesis": "A fresh regulatory probe increases legal risk and can pressure valuation. The news implies a short trade.",
+      "confidence": "medium",
+      "timeframe": "1w",
+      "key_catalysts": ["SEC probe"],
+      "risks": ["Quick resolution or favorable settlement"]
+    }
+  },
+  {
+    "id": "no-trade-watch-eth",
+    "text": "ETH looks interesting here, but I am just watching for now.",
+    "expected": {
+      "has_trade": false,
+      "ticker": "",
+      "asset_type": "crypto",
+      "direction": "long",
+      "thesis": "",
+      "confidence": "low",
+      "timeframe": "unknown",
+      "key_catalysts": [],
+      "risks": []
+    }
+  },
+  {
+    "id": "multi-ticker-primary-msft",
+    "text": "Watching MSFT and GOOG, but the only actionable idea is long MSFT into earnings next week.",
+    "expected": {
+      "has_trade": true,
+      "ticker": "MSFT",
+      "asset_type": "stock",
+      "direction": "long",
+      "thesis": "MSFT is the only actionable idea and the trade is into next week earnings. This is a short term event trade.",
+      "confidence": "medium",
+      "timeframe": "1w",
+      "key_catalysts": ["Earnings event"],
+      "risks": ["Guidance miss"]
+    }
+  },
+  {
+    "id": "multi-ticker-comparison-nvda",
+    "text": "NVDA vs AMD: I prefer NVDA. Long NVDA for the next month as data center demand stays hot.",
+    "expected": {
+      "has_trade": true,
+      "ticker": "NVDA",
+      "asset_type": "stock",
+      "direction": "long",
+      "thesis": "Preference is clearly stated for NVDA and the trade is long into the next month. Demand strength is the driver.",
+      "confidence": "medium",
+      "timeframe": "1m",
+      "key_catalysts": ["Data center demand"],
+      "risks": ["Valuation compression"]
+    }
+  },
+  {
+    "id": "pair-trade-ambiguous",
+    "text": "Pair trade idea: long NVDA and short AMD as the gap widens.",
+    "expected": {
+      "has_trade": false,
+      "ticker": "",
+      "asset_type": "stock",
+      "direction": "long",
+      "thesis": "",
+      "confidence": "low",
+      "timeframe": "unknown",
+      "key_catalysts": [],
+      "risks": []
+    }
+  },
+  {
+    "id": "question-about-oil",
+    "text": "Anyone think oil is going higher this week? I am on the sidelines.",
+    "expected": {
+      "has_trade": false,
+      "ticker": "",
+      "asset_type": "commodity",
+      "direction": "long",
+      "thesis": "",
+      "confidence": "low",
+      "timeframe": "unknown",
+      "key_catalysts": [],
+      "risks": []
+    }
+  },
+  {
+    "id": "crypto-long-eth-staking",
+    "text": "Long ETH for a month. Staking yields are rising and L2 activity is picking up.",
+    "expected": {
+      "has_trade": true,
+      "ticker": "ETH",
+      "asset_type": "crypto",
+      "direction": "long",
+      "thesis": "Improving staking yields and stronger L2 activity support a month long upside view. This is a medium term crypto trade.",
+      "confidence": "medium",
+      "timeframe": "1m",
+      "key_catalysts": ["Rising staking yields", "L2 activity"],
+      "risks": ["Network congestion"]
+    }
+  },
+  {
+    "id": "crypto-short-doge-meme",
+    "text": "Short DOGE. The meme cycle is fading and liquidity is drying up.",
+    "expected": {
+      "has_trade": true,
+      "ticker": "DOGE",
+      "asset_type": "crypto",
+      "direction": "short",
+      "thesis": "Fading meme momentum and weaker liquidity often lead to downside. This is a short term bearish trade.",
+      "confidence": "medium",
+      "timeframe": "1w",
+      "key_catalysts": ["Meme momentum fading", "Liquidity drying up"],
+      "risks": ["Sudden social media hype"]
+    }
+  },
+  {
+    "id": "stock-long-nflx-subscriber",
+    "text": "I think NFLX will go up after subscriber numbers. Long NFLX into the report tomorrow.",
+    "expected": {
+      "has_trade": true,
+      "ticker": "NFLX",
+      "asset_type": "stock",
+      "direction": "long",
+      "thesis": "The post expects a positive reaction to subscriber numbers and calls for a long into the report. This is an event driven trade.",
+      "confidence": "medium",
+      "timeframe": "1d",
+      "key_catalysts": ["Subscriber report"],
+      "risks": ["Disappointing guidance"]
+    }
+  },
+  {
+    "id": "stock-short-meta-ads",
+    "text": "Short META for the next month. Ad pricing looks weak and I expect a reset.",
+    "expected": {
+      "has_trade": true,
+      "ticker": "META",
+      "asset_type": "stock",
+      "direction": "short",
+      "thesis": "Weak ad pricing can pressure revenue expectations, supporting a month long downside view. This is a fundamental short.",
+      "confidence": "medium",
+      "timeframe": "1m",
+      "key_catalysts": ["Weak ad pricing"],
+      "risks": ["Cost cuts offset weakness"]
+    }
+  },
+  {
+    "id": "commodity-long-ng-winter",
+    "text": "Long NG into winter. Storage is low and weather models are turning colder.",
+    "expected": {
+      "has_trade": true,
+      "ticker": "NG",
+      "asset_type": "commodity",
+      "direction": "long",
+      "thesis": "Low storage and colder weather expectations can lift natural gas prices into winter. This is a seasonal trade.",
+      "confidence": "medium",
+      "timeframe": "3m",
+      "key_catalysts": ["Low storage", "Colder weather models"],
+      "risks": ["Mild winter"]
+    }
+  },
+  {
+    "id": "commodity-short-copper-china",
+    "text": "Short HG for the week. China PMI missed and base metals are rolling over.",
+    "expected": {
+      "has_trade": true,
+      "ticker": "HG",
+      "asset_type": "commodity",
+      "direction": "short",
+      "thesis": "A weak PMI print can pressure industrial metal demand, making a near term short attractive. This is a macro downside trade.",
+      "confidence": "medium",
+      "timeframe": "1w",
+      "key_catalysts": ["China PMI miss"],
+      "risks": ["Policy stimulus headlines"]
+    }
+  },
+  {
+    "id": "prediction-yes-btc100",
+    "text": "Bet YES on BTC100. I think BTC clears 100k by year end.",
+    "expected": {
+      "has_trade": true,
+      "ticker": "BTC100",
+      "asset_type": "prediction",
+      "direction": "yes",
+      "thesis": "The author expects BTC to reach 100k by year end, so YES shares are the trade. This is a long horizon probability bet.",
+      "confidence": "medium",
+      "timeframe": "3m",
+      "key_catalysts": ["BTC momentum"],
+      "risks": ["Macro drawdown"]
+    }
+  },
+  {
+    "id": "news-long-jpm-stress",
+    "text": "Breaking: JPM beats stress test with a huge buffer. Banks should rally, long JPM for the week.",
+    "expected": {
+      "has_trade": true,
+      "ticker": "JPM",
+      "asset_type": "stock",
+      "direction": "long",
+      "thesis": "A strong stress test result can lift sentiment for the bank, and the text calls for a long into the week. This is a short term trade.",
+      "confidence": "medium",
+      "timeframe": "1w",
+      "key_catalysts": ["Stress test beat"],
+      "risks": ["Sector wide selloff"]
+    }
+  },
+  {
+    "id": "news-short-ual-guidance",
+    "text": "UAL cuts guidance due to fuel costs. Feels like a short setup.",
+    "expected": {
+      "has_trade": true,
+      "ticker": "UAL",
+      "asset_type": "stock",
+      "direction": "short",
+      "thesis": "A guidance cut tied to rising costs often pressures airline stocks, implying a bearish trade. This is a near term downside view.",
+      "confidence": "medium",
+      "timeframe": "1w",
+      "key_catalysts": ["Guidance cut", "Fuel cost pressure"],
+      "risks": ["Rapid oil pullback"]
+    }
+  },
+  {
+    "id": "no-trade-opinion",
+    "text": "TSLA is a fascinating company, but I have no position and no trade here.",
+    "expected": {
+      "has_trade": false,
+      "ticker": "",
+      "asset_type": "stock",
+      "direction": "long",
+      "thesis": "",
+      "confidence": "low",
+      "timeframe": "unknown",
+      "key_catalysts": [],
+      "risks": []
+    }
+  },
+  {
+    "id": "ambiguous-rumor",
+    "text": "Hearing rumors about AMZN, could be big if true. Not sure yet.",
+    "expected": {
+      "has_trade": false,
+      "ticker": "",
+      "asset_type": "stock",
+      "direction": "long",
+      "thesis": "",
+      "confidence": "low",
+      "timeframe": "unknown",
+      "key_catalysts": [],
+      "risks": []
+    }
+  },
+  {
+    "id": "multi-crypto-context",
+    "text": "BTC and ETH are both strong, but only trade is short AVAX after the unlock.",
+    "expected": {
+      "has_trade": true,
+      "ticker": "AVAX",
+      "asset_type": "crypto",
+      "direction": "short",
+      "thesis": "The unlock is expected to add supply pressure, and the text calls for a short. This is a short term bearish trade.",
+      "confidence": "medium",
+      "timeframe": "1w",
+      "key_catalysts": ["Token unlock"],
+      "risks": ["Supply absorbed quickly"]
+    }
+  },
+  {
+    "id": "crypto-long-sol-ecosystem",
+    "text": "Long SOL for the next quarter. Ecosystem activity is rising and dev grants are accelerating.",
+    "expected": {
+      "has_trade": true,
+      "ticker": "SOL",
+      "asset_type": "crypto",
+      "direction": "long",
+      "thesis": "Rising ecosystem activity and developer incentives point to sustained demand, supporting a next quarter long. This is a medium term growth trade.",
+      "confidence": "medium",
+      "timeframe": "3m",
+      "key_catalysts": ["Ecosystem activity", "Developer grants"],
+      "risks": ["Network outage"]
+    }
+  },
+  {
+    "id": "stock-short-snap-ads",
+    "text": "Short SNAP into next week. Ad checks are weak and comps are tough.",
+    "expected": {
+      "has_trade": true,
+      "ticker": "SNAP",
+      "asset_type": "stock",
+      "direction": "short",
+      "thesis": "Weak ad checks and tough comps point to downside into next week, making this a short term short. This is a near term trade.",
+      "confidence": "medium",
+      "timeframe": "1w",
+      "key_catalysts": ["Weak ad checks", "Tough comps"],
+      "risks": ["Positive guidance surprise"]
+    }
+  },
+  {
+    "id": "commodity-long-silver",
+    "text": "Long SI for a month. Gold strength usually pulls silver with it.",
+    "expected": {
+      "has_trade": true,
+      "ticker": "SI",
+      "asset_type": "commodity",
+      "direction": "long",
+      "thesis": "Gold strength often supports silver, making a month long trade attractive. This is a relative value play.",
+      "confidence": "low",
+      "timeframe": "1m",
+      "key_catalysts": ["Gold strength"],
+      "risks": ["Silver lags gold"]
+    }
+  },
+  {
+    "id": "news-implied-crypto",
+    "text": "Exchange announces it will list OP tomorrow. That usually pops the token, so long OP for the day.",
+    "expected": {
+      "has_trade": true,
+      "ticker": "OP",
+      "asset_type": "crypto",
+      "direction": "long",
+      "thesis": "Major exchange listings often drive short term demand, and the text calls for a day trade. This is a catalyst driven long.",
+      "confidence": "medium",
+      "timeframe": "1d",
+      "key_catalysts": ["Exchange listing"],
+      "risks": ["Sell the news"]
+    }
+  },
+  {
+    "id": "no-trade-strategy",
+    "text": "My strategy is to wait for a pullback in NVDA. No trade until then.",
+    "expected": {
+      "has_trade": false,
+      "ticker": "",
+      "asset_type": "stock",
+      "direction": "long",
+      "thesis": "",
+      "confidence": "low",
+      "timeframe": "unknown",
+      "key_catalysts": [],
+      "risks": []
+    }
+  },
+  {
+    "id": "short-term-precision",
+    "text": "Scalp short BABA today if it fails 78. Tight stop above 79.",
+    "expected": {
+      "has_trade": true,
+      "ticker": "BABA",
+      "asset_type": "stock",
+      "direction": "short",
+      "thesis": "A defined intraday setup calls for a short if resistance fails, making this a day trade. The thesis is tactical.",
+      "confidence": "medium",
+      "timeframe": "1d",
+      "key_catalysts": ["Technical resistance"],
+      "risks": ["Breakout above resistance"]
+    }
+  },
+  {
+    "id": "low-confidence-idea",
+    "text": "Maybe long ROKU if the market turns risk on, but I am not confident.",
+    "expected": {
+      "has_trade": true,
+      "ticker": "ROKU",
+      "asset_type": "stock",
+      "direction": "long",
+      "thesis": "The post still expresses a directional view to go long, albeit with low confidence. It is a conditional trade idea.",
+      "confidence": "low",
+      "timeframe": "unknown",
+      "key_catalysts": ["Risk on sentiment"],
+      "risks": ["Market stays risk off"]
+    }
+  },
+  {
+    "id": "timeframe-unknown",
+    "text": "Long XOM. Energy is under owned and buybacks keep growing.",
+    "expected": {
+      "has_trade": true,
+      "ticker": "XOM",
+      "asset_type": "stock",
+      "direction": "long",
+      "thesis": "Under ownership and buybacks support a bullish view on XOM, but no explicit timeframe is given. This is a directional long.",
+      "confidence": "medium",
+      "timeframe": "unknown",
+      "key_catalysts": ["Buybacks", "Under owned positioning"],
+      "risks": ["Oil price downturn"]
+    }
+  }
+]
