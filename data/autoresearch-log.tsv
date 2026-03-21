@@ -1,0 +1,141 @@
+run_id	timestamp	case_id	score	total	expected_has_trade	pred_has_trade	expected_ticker	pred_ticker	expected_direction	pred_direction	expected_asset_type	pred_asset_type	expected_confidence	pred_confidence
+run_1774080236669_v7l440	2026-03-21T08:03:56.670Z	crypto-long-btc-etf	3	8	true	false	BTC		long	long	crypto	crypto	medium	low
+run_1774080236669_v7l440	2026-03-21T08:03:56.670Z	crypto-short-sol-exploit	1	8	true	false	SOL		short	long	crypto	crypto	medium	low
+run_1774080236669_v7l440	2026-03-21T08:03:56.670Z	stock-long-aapl-buyback	2	8	true	false	AAPL		long	long	stock	crypto	medium	low
+run_1774080236669_v7l440	2026-03-21T08:03:56.670Z	stock-short-tsla-margins	0	8	true	false	TSLA		short	long	stock	crypto	medium	low
+run_1774080236669_v7l440	2026-03-21T08:03:56.670Z	commodity-long-gold-rate-cuts	2	8	true	false	GC		long	long	commodity	crypto	medium	low
+run_1774080236669_v7l440	2026-03-21T08:03:56.670Z	commodity-short-crude-opec	0	8	true	false	CL		short	long	commodity	crypto	medium	low
+run_1774080236669_v7l440	2026-03-21T08:03:56.670Z	prediction-yes-pres24	0	8	true	false	PRES24		yes	long	prediction	crypto	high	low
+run_1774080236669_v7l440	2026-03-21T08:03:56.670Z	prediction-no-rate25	0	8	true	false	RATE25		no	long	prediction	crypto	medium	low
+run_1774080236669_v7l440	2026-03-21T08:03:56.670Z	news-long-mrna-fda	2	8	true	false	MRNA		long	long	stock	crypto	medium	low
+run_1774080236669_v7l440	2026-03-21T08:03:56.670Z	news-short-coin-sec	0	8	true	false	COIN		short	long	stock	crypto	medium	low
+run_1774080236669_v7l440	2026-03-21T08:03:56.670Z	no-trade-watch-eth	2	2	false	false			long	long	crypto	crypto	low	low
+run_1774080236669_v7l440	2026-03-21T08:03:56.670Z	multi-ticker-primary-msft	2	8	true	false	MSFT		long	long	stock	crypto	medium	low
+run_1774080236669_v7l440	2026-03-21T08:03:56.670Z	multi-ticker-comparison-nvda	2	8	true	false	NVDA		long	long	stock	crypto	medium	low
+run_1774080236669_v7l440	2026-03-21T08:03:56.670Z	pair-trade-ambiguous	2	2	false	false			long	long	stock	crypto	low	low
+run_1774080236669_v7l440	2026-03-21T08:03:56.670Z	question-about-oil	2	2	false	false			long	long	commodity	crypto	low	low
+run_1774080236669_v7l440	2026-03-21T08:03:56.670Z	crypto-long-eth-staking	3	8	true	false	ETH		long	long	crypto	crypto	medium	low
+run_1774080236669_v7l440	2026-03-21T08:03:56.670Z	crypto-short-doge-meme	1	8	true	false	DOGE		short	long	crypto	crypto	medium	low
+run_1774080236669_v7l440	2026-03-21T08:03:56.670Z	stock-long-nflx-subscriber	2	8	true	false	NFLX		long	long	stock	crypto	medium	low
+run_1774080236669_v7l440	2026-03-21T08:03:56.670Z	stock-short-meta-ads	0	8	true	false	META		short	long	stock	crypto	medium	low
+run_1774080236669_v7l440	2026-03-21T08:03:56.670Z	commodity-long-ng-winter	2	8	true	false	NG		long	long	commodity	crypto	medium	low
+run_1774080236669_v7l440	2026-03-21T08:03:56.670Z	commodity-short-copper-china	0	8	true	false	HG		short	long	commodity	crypto	medium	low
+run_1774080236669_v7l440	2026-03-21T08:03:56.670Z	prediction-yes-btc100	0	8	true	false	BTC100		yes	long	prediction	crypto	medium	low
+run_1774080236669_v7l440	2026-03-21T08:03:56.670Z	news-long-jpm-stress	2	8	true	false	JPM		long	long	stock	crypto	medium	low
+run_1774080236669_v7l440	2026-03-21T08:03:56.670Z	news-short-ual-guidance	0	8	true	false	UAL		short	long	stock	crypto	medium	low
+run_1774080236669_v7l440	2026-03-21T08:03:56.670Z	no-trade-opinion	2	2	false	false			long	long	stock	crypto	low	low
+run_1774080236669_v7l440	2026-03-21T08:03:56.670Z	ambiguous-rumor	2	2	false	false			long	long	stock	crypto	low	low
+run_1774080236669_v7l440	2026-03-21T08:03:56.670Z	multi-crypto-context	1	8	true	false	AVAX		short	long	crypto	crypto	medium	low
+run_1774080236669_v7l440	2026-03-21T08:03:56.670Z	crypto-long-sol-ecosystem	3	8	true	false	SOL		long	long	crypto	crypto	medium	low
+run_1774080236669_v7l440	2026-03-21T08:03:56.670Z	stock-short-snap-ads	0	8	true	false	SNAP		short	long	stock	crypto	medium	low
+run_1774080236669_v7l440	2026-03-21T08:03:56.670Z	commodity-long-silver	3	8	true	false	SI		long	long	commodity	crypto	low	low
+run_1774080236669_v7l440	2026-03-21T08:03:56.670Z	news-implied-crypto	3	8	true	false	OP		long	long	crypto	crypto	medium	low
+run_1774080236669_v7l440	2026-03-21T08:03:56.670Z	no-trade-strategy	2	2	false	false			long	long	stock	crypto	low	low
+run_1774080236669_v7l440	2026-03-21T08:03:56.670Z	short-term-precision	0	8	true	false	BABA		short	long	stock	crypto	medium	low
+run_1774080236669_v7l440	2026-03-21T08:03:56.670Z	low-confidence-idea	3	8	true	false	ROKU		long	long	stock	crypto	low	low
+run_1774080236669_v7l440	2026-03-21T08:03:56.670Z	timeframe-unknown	2	8	true	false	XOM		long	long	stock	crypto	medium	low
+run_1774080344416_6zagwm	2026-03-21T08:05:44.417Z	crypto-long-btc-etf	3	8	true	false	BTC		long	long	crypto	crypto	medium	low
+run_1774080344416_6zagwm	2026-03-21T08:05:44.417Z	crypto-short-sol-exploit	1	8	true	false	SOL		short	long	crypto	crypto	medium	low
+run_1774080344416_6zagwm	2026-03-21T08:05:44.417Z	stock-long-aapl-buyback	2	8	true	false	AAPL		long	long	stock	crypto	medium	low
+run_1774080344416_6zagwm	2026-03-21T08:05:44.417Z	stock-short-tsla-margins	0	8	true	false	TSLA		short	long	stock	crypto	medium	low
+run_1774080344416_6zagwm	2026-03-21T08:05:44.417Z	commodity-long-gold-rate-cuts	2	8	true	false	GC		long	long	commodity	crypto	medium	low
+run_1774080344416_6zagwm	2026-03-21T08:05:44.417Z	commodity-short-crude-opec	0	8	true	false	CL		short	long	commodity	crypto	medium	low
+run_1774080344416_6zagwm	2026-03-21T08:05:44.417Z	prediction-yes-pres24	0	8	true	false	PRES24		yes	long	prediction	crypto	high	low
+run_1774080344416_6zagwm	2026-03-21T08:05:44.417Z	prediction-no-rate25	0	8	true	false	RATE25		no	long	prediction	crypto	medium	low
+run_1774080344416_6zagwm	2026-03-21T08:05:44.417Z	news-long-mrna-fda	2	8	true	false	MRNA		long	long	stock	crypto	medium	low
+run_1774080344416_6zagwm	2026-03-21T08:05:44.417Z	news-short-coin-sec	0	8	true	false	COIN		short	long	stock	crypto	medium	low
+run_1774080344416_6zagwm	2026-03-21T08:05:44.417Z	no-trade-watch-eth	2	2	false	false			long	long	crypto	crypto	low	low
+run_1774080344416_6zagwm	2026-03-21T08:05:44.417Z	multi-ticker-primary-msft	2	8	true	false	MSFT		long	long	stock	crypto	medium	low
+run_1774080344416_6zagwm	2026-03-21T08:05:44.417Z	multi-ticker-comparison-nvda	2	8	true	false	NVDA		long	long	stock	crypto	medium	low
+run_1774080344416_6zagwm	2026-03-21T08:05:44.417Z	pair-trade-ambiguous	2	2	false	false			long	long	stock	crypto	low	low
+run_1774080344416_6zagwm	2026-03-21T08:05:44.417Z	question-about-oil	2	2	false	false			long	long	commodity	crypto	low	low
+run_1774080344416_6zagwm	2026-03-21T08:05:44.417Z	crypto-long-eth-staking	3	8	true	false	ETH		long	long	crypto	crypto	medium	low
+run_1774080344416_6zagwm	2026-03-21T08:05:44.417Z	crypto-short-doge-meme	1	8	true	false	DOGE		short	long	crypto	crypto	medium	low
+run_1774080344416_6zagwm	2026-03-21T08:05:44.417Z	stock-long-nflx-subscriber	2	8	true	false	NFLX		long	long	stock	crypto	medium	low
+run_1774080344416_6zagwm	2026-03-21T08:05:44.417Z	stock-short-meta-ads	0	8	true	false	META		short	long	stock	crypto	medium	low
+run_1774080344416_6zagwm	2026-03-21T08:05:44.417Z	commodity-long-ng-winter	2	8	true	false	NG		long	long	commodity	crypto	medium	low
+run_1774080344416_6zagwm	2026-03-21T08:05:44.417Z	commodity-short-copper-china	0	8	true	false	HG		short	long	commodity	crypto	medium	low
+run_1774080344416_6zagwm	2026-03-21T08:05:44.417Z	prediction-yes-btc100	0	8	true	false	BTC100		yes	long	prediction	crypto	medium	low
+run_1774080344416_6zagwm	2026-03-21T08:05:44.417Z	news-long-jpm-stress	2	8	true	false	JPM		long	long	stock	crypto	medium	low
+run_1774080344416_6zagwm	2026-03-21T08:05:44.417Z	news-short-ual-guidance	0	8	true	false	UAL		short	long	stock	crypto	medium	low
+run_1774080344416_6zagwm	2026-03-21T08:05:44.417Z	no-trade-opinion	2	2	false	false			long	long	stock	crypto	low	low
+run_1774080344416_6zagwm	2026-03-21T08:05:44.417Z	ambiguous-rumor	2	2	false	false			long	long	stock	crypto	low	low
+run_1774080344416_6zagwm	2026-03-21T08:05:44.417Z	multi-crypto-context	1	8	true	false	AVAX		short	long	crypto	crypto	medium	low
+run_1774080344416_6zagwm	2026-03-21T08:05:44.417Z	crypto-long-sol-ecosystem	3	8	true	false	SOL		long	long	crypto	crypto	medium	low
+run_1774080344416_6zagwm	2026-03-21T08:05:44.417Z	stock-short-snap-ads	0	8	true	false	SNAP		short	long	stock	crypto	medium	low
+run_1774080344416_6zagwm	2026-03-21T08:05:44.417Z	commodity-long-silver	3	8	true	false	SI		long	long	commodity	crypto	low	low
+run_1774080344416_6zagwm	2026-03-21T08:05:44.417Z	news-implied-crypto	3	8	true	false	OP		long	long	crypto	crypto	medium	low
+run_1774080344416_6zagwm	2026-03-21T08:05:44.417Z	no-trade-strategy	2	2	false	false			long	long	stock	crypto	low	low
+run_1774080344416_6zagwm	2026-03-21T08:05:44.417Z	short-term-precision	0	8	true	false	BABA		short	long	stock	crypto	medium	low
+run_1774080344416_6zagwm	2026-03-21T08:05:44.417Z	low-confidence-idea	3	8	true	false	ROKU		long	long	stock	crypto	low	low
+run_1774080344416_6zagwm	2026-03-21T08:05:44.417Z	timeframe-unknown	2	8	true	false	XOM		long	long	stock	crypto	medium	low
+run_1774080840456_9ci5pq	2026-03-21T08:14:13.022Z	crypto-long-btc-etf	3	8	true	false	BTC		long	long	crypto	crypto	medium	low
+run_1774080840456_9ci5pq	2026-03-21T08:14:13.022Z	crypto-short-sol-exploit	1	8	true	false	SOL		short	long	crypto	crypto	medium	low
+run_1774080840456_9ci5pq	2026-03-21T08:14:13.022Z	stock-long-aapl-buyback	2	8	true	false	AAPL		long	long	stock	crypto	medium	low
+run_1774080840456_9ci5pq	2026-03-21T08:14:13.022Z	stock-short-tsla-margins	0	8	true	false	TSLA		short	long	stock	crypto	medium	low
+run_1774080840456_9ci5pq	2026-03-21T08:14:13.022Z	commodity-long-gold-rate-cuts	2	8	true	false	GC		long	long	commodity	crypto	medium	low
+run_1774080840456_9ci5pq	2026-03-21T08:14:13.022Z	commodity-short-crude-opec	0	8	true	false	CL		short	long	commodity	crypto	medium	low
+run_1774080840456_9ci5pq	2026-03-21T08:14:13.022Z	prediction-yes-pres24	0	8	true	false	PRES24		yes	long	prediction	crypto	high	low
+run_1774080840456_9ci5pq	2026-03-21T08:14:13.022Z	prediction-no-rate25	0	8	true	false	RATE25		no	long	prediction	crypto	medium	low
+run_1774080840456_9ci5pq	2026-03-21T08:14:13.022Z	news-long-mrna-fda	2	8	true	false	MRNA		long	long	stock	crypto	medium	low
+run_1774080840456_9ci5pq	2026-03-21T08:14:13.022Z	news-short-coin-sec	0	8	true	false	COIN		short	long	stock	crypto	medium	low
+run_1774080840456_9ci5pq	2026-03-21T08:14:13.022Z	no-trade-watch-eth	2	2	false	false			long	long	crypto	crypto	low	low
+run_1774080840456_9ci5pq	2026-03-21T08:14:13.022Z	multi-ticker-primary-msft	2	8	true	false	MSFT		long	long	stock	crypto	medium	low
+run_1774080840456_9ci5pq	2026-03-21T08:14:13.022Z	multi-ticker-comparison-nvda	2	8	true	false	NVDA		long	long	stock	crypto	medium	low
+run_1774080840456_9ci5pq	2026-03-21T08:14:13.022Z	pair-trade-ambiguous	2	2	false	false			long	long	stock	crypto	low	low
+run_1774080840456_9ci5pq	2026-03-21T08:14:13.022Z	question-about-oil	2	2	false	false			long	long	commodity	crypto	low	low
+run_1774080840456_9ci5pq	2026-03-21T08:14:13.022Z	crypto-long-eth-staking	3	8	true	false	ETH		long	long	crypto	crypto	medium	low
+run_1774080840456_9ci5pq	2026-03-21T08:14:13.022Z	crypto-short-doge-meme	1	8	true	false	DOGE		short	long	crypto	crypto	medium	low
+run_1774080840456_9ci5pq	2026-03-21T08:14:13.022Z	stock-long-nflx-subscriber	2	8	true	false	NFLX		long	long	stock	crypto	medium	low
+run_1774080840456_9ci5pq	2026-03-21T08:14:13.022Z	stock-short-meta-ads	0	8	true	false	META		short	long	stock	crypto	medium	low
+run_1774080840456_9ci5pq	2026-03-21T08:14:13.022Z	commodity-long-ng-winter	2	8	true	false	NG		long	long	commodity	crypto	medium	low
+run_1774080840456_9ci5pq	2026-03-21T08:14:13.022Z	commodity-short-copper-china	0	8	true	false	HG		short	long	commodity	crypto	medium	low
+run_1774080840456_9ci5pq	2026-03-21T08:14:13.022Z	prediction-yes-btc100	0	8	true	false	BTC100		yes	long	prediction	crypto	medium	low
+run_1774080840456_9ci5pq	2026-03-21T08:14:13.022Z	news-long-jpm-stress	2	8	true	false	JPM		long	long	stock	crypto	medium	low
+run_1774080840456_9ci5pq	2026-03-21T08:14:13.022Z	news-short-ual-guidance	0	8	true	false	UAL		short	long	stock	crypto	medium	low
+run_1774080840456_9ci5pq	2026-03-21T08:14:13.022Z	no-trade-opinion	2	2	false	false			long	long	stock	crypto	low	low
+run_1774080840456_9ci5pq	2026-03-21T08:14:13.022Z	ambiguous-rumor	2	2	false	false			long	long	stock	crypto	low	low
+run_1774080840456_9ci5pq	2026-03-21T08:14:13.022Z	multi-crypto-context	1	8	true	false	AVAX		short	long	crypto	crypto	medium	low
+run_1774080840456_9ci5pq	2026-03-21T08:14:13.022Z	crypto-long-sol-ecosystem	3	8	true	false	SOL		long	long	crypto	crypto	medium	low
+run_1774080840456_9ci5pq	2026-03-21T08:14:13.022Z	stock-short-snap-ads	0	8	true	false	SNAP		short	long	stock	crypto	medium	low
+run_1774080840456_9ci5pq	2026-03-21T08:14:13.022Z	commodity-long-silver	3	8	true	false	SI		long	long	commodity	crypto	low	low
+run_1774080840456_9ci5pq	2026-03-21T08:14:13.022Z	news-implied-crypto	3	8	true	false	OP		long	long	crypto	crypto	medium	low
+run_1774080840456_9ci5pq	2026-03-21T08:14:13.022Z	no-trade-strategy	2	2	false	false			long	long	stock	crypto	low	low
+run_1774080840456_9ci5pq	2026-03-21T08:14:13.022Z	short-term-precision	0	8	true	false	BABA		short	long	stock	crypto	medium	low
+run_1774080840456_9ci5pq	2026-03-21T08:14:13.022Z	low-confidence-idea	3	8	true	false	ROKU		long	long	stock	crypto	low	low
+run_1774080840456_9ci5pq	2026-03-21T08:14:13.022Z	timeframe-unknown	2	8	true	false	XOM		long	long	stock	crypto	medium	low
+run_1774080857604_bs2u4o	2026-03-21T08:14:30.235Z	crypto-long-btc-etf	3	8	true	false	BTC		long	long	crypto	crypto	medium	low
+run_1774080857604_bs2u4o	2026-03-21T08:14:30.235Z	crypto-short-sol-exploit	1	8	true	false	SOL		short	long	crypto	crypto	medium	low
+run_1774080857604_bs2u4o	2026-03-21T08:14:30.235Z	stock-long-aapl-buyback	2	8	true	false	AAPL		long	long	stock	crypto	medium	low
+run_1774080857604_bs2u4o	2026-03-21T08:14:30.235Z	stock-short-tsla-margins	0	8	true	false	TSLA		short	long	stock	crypto	medium	low
+run_1774080857604_bs2u4o	2026-03-21T08:14:30.235Z	commodity-long-gold-rate-cuts	2	8	true	false	GC		long	long	commodity	crypto	medium	low
+run_1774080857604_bs2u4o	2026-03-21T08:14:30.235Z	commodity-short-crude-opec	0	8	true	false	CL		short	long	commodity	crypto	medium	low
+run_1774080857604_bs2u4o	2026-03-21T08:14:30.235Z	prediction-yes-pres24	0	8	true	false	PRES24		yes	long	prediction	crypto	high	low
+run_1774080857604_bs2u4o	2026-03-21T08:14:30.235Z	prediction-no-rate25	0	8	true	false	RATE25		no	long	prediction	crypto	medium	low
+run_1774080857604_bs2u4o	2026-03-21T08:14:30.235Z	news-long-mrna-fda	2	8	true	false	MRNA		long	long	stock	crypto	medium	low
+run_1774080857604_bs2u4o	2026-03-21T08:14:30.235Z	news-short-coin-sec	0	8	true	false	COIN		short	long	stock	crypto	medium	low
+run_1774080857604_bs2u4o	2026-03-21T08:14:30.235Z	no-trade-watch-eth	2	2	false	false			long	long	crypto	crypto	low	low
+run_1774080857604_bs2u4o	2026-03-21T08:14:30.235Z	multi-ticker-primary-msft	2	8	true	false	MSFT		long	long	stock	crypto	medium	low
+run_1774080857604_bs2u4o	2026-03-21T08:14:30.235Z	multi-ticker-comparison-nvda	2	8	true	false	NVDA		long	long	stock	crypto	medium	low
+run_1774080857604_bs2u4o	2026-03-21T08:14:30.235Z	pair-trade-ambiguous	2	2	false	false			long	long	stock	crypto	low	low
+run_1774080857604_bs2u4o	2026-03-21T08:14:30.235Z	question-about-oil	2	2	false	false			long	long	commodity	crypto	low	low
+run_1774080857604_bs2u4o	2026-03-21T08:14:30.235Z	crypto-long-eth-staking	3	8	true	false	ETH		long	long	crypto	crypto	medium	low
+run_1774080857604_bs2u4o	2026-03-21T08:14:30.235Z	crypto-short-doge-meme	1	8	true	false	DOGE		short	long	crypto	crypto	medium	low
+run_1774080857604_bs2u4o	2026-03-21T08:14:30.235Z	stock-long-nflx-subscriber	2	8	true	false	NFLX		long	long	stock	crypto	medium	low
+run_1774080857604_bs2u4o	2026-03-21T08:14:30.235Z	stock-short-meta-ads	0	8	true	false	META		short	long	stock	crypto	medium	low
+run_1774080857604_bs2u4o	2026-03-21T08:14:30.235Z	commodity-long-ng-winter	2	8	true	false	NG		long	long	commodity	crypto	medium	low
+run_1774080857604_bs2u4o	2026-03-21T08:14:30.235Z	commodity-short-copper-china	0	8	true	false	HG		short	long	commodity	crypto	medium	low
+run_1774080857604_bs2u4o	2026-03-21T08:14:30.235Z	prediction-yes-btc100	0	8	true	false	BTC100		yes	long	prediction	crypto	medium	low
+run_1774080857604_bs2u4o	2026-03-21T08:14:30.235Z	news-long-jpm-stress	2	8	true	false	JPM		long	long	stock	crypto	medium	low
+run_1774080857604_bs2u4o	2026-03-21T08:14:30.235Z	news-short-ual-guidance	0	8	true	false	UAL		short	long	stock	crypto	medium	low
+run_1774080857604_bs2u4o	2026-03-21T08:14:30.235Z	no-trade-opinion	2	2	false	false			long	long	stock	crypto	low	low
+run_1774080857604_bs2u4o	2026-03-21T08:14:30.235Z	ambiguous-rumor	2	2	false	false			long	long	stock	crypto	low	low
+run_1774080857604_bs2u4o	2026-03-21T08:14:30.235Z	multi-crypto-context	1	8	true	false	AVAX		short	long	crypto	crypto	medium	low
+run_1774080857604_bs2u4o	2026-03-21T08:14:30.235Z	crypto-long-sol-ecosystem	3	8	true	false	SOL		long	long	crypto	crypto	medium	low
+run_1774080857604_bs2u4o	2026-03-21T08:14:30.235Z	stock-short-snap-ads	0	8	true	false	SNAP		short	long	stock	crypto	medium	low
+run_1774080857604_bs2u4o	2026-03-21T08:14:30.235Z	commodity-long-silver	3	8	true	false	SI		long	long	commodity	crypto	low	low
+run_1774080857604_bs2u4o	2026-03-21T08:14:30.235Z	news-implied-crypto	3	8	true	false	OP		long	long	crypto	crypto	medium	low
+run_1774080857604_bs2u4o	2026-03-21T08:14:30.235Z	no-trade-strategy	2	2	false	false			long	long	stock	crypto	low	low
+run_1774080857604_bs2u4o	2026-03-21T08:14:30.235Z	short-term-precision	0	8	true	false	BABA		short	long	stock	crypto	medium	low
+run_1774080857604_bs2u4o	2026-03-21T08:14:30.235Z	low-confidence-idea	3	8	true	false	ROKU		long	long	stock	crypto	low	low
+run_1774080857604_bs2u4o	2026-03-21T08:14:30.235Z	timeframe-unknown	2	8	true	false	XOM		long	long	stock	crypto	medium	low
