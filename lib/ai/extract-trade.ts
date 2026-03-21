@@ -1,6 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import OpenAI from "openai";
 import { ExtractedTrade } from "../types";
+import { loadExtractTradePrompt } from "./load-extract-trade-prompt";
 
 const fallbackEmpty: ExtractedTrade = {
   has_trade: false,
@@ -13,29 +14,6 @@ const fallbackEmpty: ExtractedTrade = {
   key_catalysts: [],
   risks: [],
 };
-
-const prompt = `You are a trade extraction engine. Given a social media post or news article, extract the trade thesis if one exists.
-
-Return JSON:
-{
-  "has_trade": true/false,
-  "ticker": "ETH",
-  "asset_type": "crypto|stock|commodity|prediction",
-  "direction": "long|short|yes|no",
-  "thesis": "2-3 sentence reasoning",
-  "confidence": "high|medium|low",
-  "timeframe": "1d|1w|1m|3m|unknown",
-  "key_catalysts": ["catalyst 1", "catalyst 2"],
-  "risks": ["risk 1"]
-}
-
-Rules:
-- Only extract if there is a clear directional call
-- I think X will go up = valid trade
-- Interesting to watch X = not valid
-- News: infer the trade from the event
-- Be conservative with confidence
-- If no trade found, return has_trade: false`;
 
 function keywordFallback(text: string): ExtractedTrade {
   const lowered = text.toLowerCase();
@@ -61,6 +39,15 @@ function keywordFallback(text: string): ExtractedTrade {
 
 export async function extractTrade(text: string): Promise<ExtractedTrade> {
   if (!text.trim()) return fallbackEmpty;
+
+  let prompt = "";
+  try {
+    prompt = await loadExtractTradePrompt();
+  } catch {
+    prompt = "";
+  }
+
+  if (!prompt) return keywordFallback(text);
 
   const openKey = process.env.OPENAI_API_KEY;
   const anthropicKey = process.env.ANTHROPIC_API_KEY;
