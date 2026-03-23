@@ -8,7 +8,7 @@ export interface DefiSignal {
 
 export async function scrapeDefiLlamaSignals(): Promise<DefiSignal[]> {
   try {
-    const res = await fetch("https://api.llama.fi/protocols", { next: { revalidate: 600 } });
+    const res = await fetch("https://api.llama.fi/protocols", { cache: "no-store" });
     if (!res.ok) return [];
     const protocols = (await res.json()) as Array<{
       name: string;

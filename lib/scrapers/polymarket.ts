@@ -10,7 +10,7 @@ export interface PolymarketMarket {
 
 export async function scrapePolymarket(): Promise<PolymarketMarket[]> {
   try {
-    const res = await fetch("https://gamma-api.polymarket.com/markets", { next: { revalidate: 300 } });
+    const res = await fetch("https://gamma-api.polymarket.com/markets", { cache: "no-store" });
     if (!res.ok) return [];
     const markets = (await res.json()) as PolymarketMarket[];
 

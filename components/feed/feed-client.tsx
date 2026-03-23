@@ -72,7 +72,6 @@ export function FeedClient({ initialTrades, authors }: { initialTrades: Trade[];
 
       <div className="grid grid-cols-1 gap-3">
         {filtered.slice(0, visible).map((trade) => {
-          const positive = (trade.pnl_percent ?? 0) >= 0;
           const isOpen = expanded[trade.id];
           const sourceIcon = trade.source === "reddit" ? <Radio className="size-3" /> : <Newspaper className="size-3" />;
           return (
