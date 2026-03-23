@@ -5,15 +5,31 @@ let lastScrapeAt = 0;
 let running = false;
 const COOLDOWN_MS = 60_000;
 
+function isAuthorized(secret: string | null) {
+  const expected = process.env.CRON_SECRET || "dev";
+  return secret === expected;
+}
+
 export async function GET(req: NextRequest) {
   const secret = req.nextUrl.searchParams.get("secret");
-  if (!process.env.CRON_SECRET || secret !== process.env.CRON_SECRET) {
+  if (!isAuthorized(secret)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const result = await runFullScrape();
-  lastScrapeAt = Date.now();
-  return NextResponse.json({ ok: true, result, lastScrapeAt });
+  if (running) {
+    return NextResponse.json({ ok: false, error: "Scrape already running" }, { status: 429 });
+  }
+
+  running = true;
+  try {
+    const result = await runFullScrape();
+    lastScrapeAt = Date.now();
+    return NextResponse.json({ ok: true, result, lastScrapeAt });
+  } catch (error) {
+    return NextResponse.json({ ok: false, error: error instanceof Error ? error.message : "Scrape failed" }, { status: 500 });
+  } finally {
+    running = false;
+  }
 }
 
 export async function POST() {
@@ -33,8 +49,8 @@ export async function POST() {
     const result = await runFullScrape();
     lastScrapeAt = Date.now();
     return NextResponse.json({ ok: true, result, lastScrapeAt });
-  } catch {
-    return NextResponse.json({ ok: false, error: "Scrape failed" }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ ok: false, error: error instanceof Error ? error.message : "Scrape failed" }, { status: 500 });
   } finally {
     running = false;
   }
