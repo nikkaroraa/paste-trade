@@ -3,6 +3,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import OpenAI from "openai";
 import Anthropic from "@anthropic-ai/sdk";
+import { execSync } from "child_process";
 import { ExtractedTrade } from "../lib/types";
 import {
   EXTRACT_TRADE_PROMPT_PATH,
@@ -118,18 +119,48 @@ async function extractWithAnthropic(prompt: string, text: string): Promise<Extra
   return safeParseTrade(first.text.trim());
 }
 
+async function extractWithClaudeCli(prompt: string, text: string): Promise<ExtractedTrade | null> {
+  const request = `${prompt}\n\nText to analyze:\n${text}\n\nReturn ONLY valid JSON, no markdown fences.`;
+
+  for (let attempt = 0; attempt < 2; attempt += 1) {
+    try {
+      const result = execSync("claude -p --output-format text", {
+        input: request,
+        encoding: "utf-8",
+        timeout: 30000,
+      });
+      return safeParseTrade(result.trim());
+    } catch {
+      // retry once
+    }
+  }
+
+  return null;
+}
+
 export async function extractTradeForEval(
   prompt: string,
   text: string
 ): Promise<ExtractedTrade> {
   try {
+    const cliResult = await extractWithClaudeCli(prompt, text);
+    if (cliResult) return coerceTrade(cliResult);
+  } catch {
+    // fallback to API providers
+  }
+
+  try {
     const openaiResult = await extractWithOpenAI(prompt, text);
     if (openaiResult) return coerceTrade(openaiResult);
+  } catch {
+    // fallback to next provider
+  }
 
+  try {
     const anthropicResult = await extractWithAnthropic(prompt, text);
     if (anthropicResult) return coerceTrade(anthropicResult);
   } catch {
-    return { ...emptyTrade };
+    // no-op
   }
 
   return { ...emptyTrade };

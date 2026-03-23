@@ -1,5 +1,6 @@
 import OpenAI from "openai";
 import Anthropic from "@anthropic-ai/sdk";
+import { execSync } from "child_process";
 import { CaseResult } from "./autoresearch";
 
 export interface PromptMutationInput {
@@ -9,7 +10,14 @@ export interface PromptMutationInput {
 }
 
 function sanitizePrompt(text: string): string {
-  return text.replace(/[\u2014\u2013]/g, "-").trim();
+  let cleaned = text.trim();
+
+  const codeBlockMatch = cleaned.match(/```[\s\S]*?```/);
+  if (codeBlockMatch) {
+    cleaned = codeBlockMatch[0].replace(/^```\w*\n?/, "").replace(/```$/, "");
+  }
+
+  return cleaned.replace(/[\u2014\u2013]/g, "-").trim();
 }
 
 function buildMutationRequest(input: PromptMutationInput): string {
@@ -47,6 +55,36 @@ function buildMutationRequest(input: PromptMutationInput): string {
   ].join("\n");
 }
 
+function mutatePromptWithClaude(
+  currentPrompt: string,
+  accuracy: number,
+  failedCases: string
+): string {
+  const mutationPrompt = `You are optimizing an AI extraction prompt.
+Current prompt achieves ${accuracy}% accuracy.
+These test cases failed: ${failedCases}
+
+Suggest a specific modification to improve accuracy. Return the FULL modified prompt (not just the diff).`;
+
+  let lastError: unknown;
+  for (let attempt = 0; attempt < 2; attempt += 1) {
+    try {
+      const result = execSync("claude -p --output-format text", {
+        input: `${mutationPrompt}\n\nCurrent prompt:\n${currentPrompt}`,
+        encoding: "utf-8",
+        timeout: 60000,
+      });
+      const output = result.trim();
+      if (!output) throw new Error("Claude CLI returned empty output");
+      return output;
+    } catch (error) {
+      lastError = error;
+    }
+  }
+
+  throw lastError instanceof Error ? lastError : new Error("claude -p mutation failed");
+}
+
 async function mutateWithOpenAI(request: string): Promise<string> {
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
@@ -80,26 +118,37 @@ async function mutateWithAnthropic(request: string): Promise<string> {
 
 export async function mutatePrompt(input: PromptMutationInput): Promise<string> {
   const request = buildMutationRequest(input);
-  const useOpenAI = Boolean(process.env.OPENAI_API_KEY);
-  const useAnthropic = Boolean(process.env.ANTHROPIC_API_KEY);
+  const failedCases = JSON.stringify(
+    input.failedCases.map((item) => ({
+      id: item.id,
+      expected: item.expected,
+      predicted: item.predicted,
+      text: item.text,
+    })),
+    null,
+    2
+  );
+
+  try {
+    return sanitizePrompt(mutatePromptWithClaude(input.prompt, input.accuracy, failedCases));
+  } catch {
+    // fallback to API providers
+  }
 
   let lastError: unknown;
-  for (let attempt = 0; attempt < 2; attempt += 1) {
+  const providers: Array<() => Promise<string>> = [];
+  if (process.env.OPENAI_API_KEY) providers.push(() => mutateWithOpenAI(request));
+  if (process.env.ANTHROPIC_API_KEY) providers.push(() => mutateWithAnthropic(request));
+
+  for (const runProvider of providers) {
     try {
-      if (useOpenAI) {
-        const output = await mutateWithOpenAI(request);
-        return sanitizePrompt(output);
-      }
-      if (useAnthropic) {
-        const output = await mutateWithAnthropic(request);
-        return sanitizePrompt(output);
-      }
-      throw new Error("No API key available");
+      const output = await runProvider();
+      return sanitizePrompt(output);
     } catch (error) {
       lastError = error;
     }
   }
 
-  const message = lastError instanceof Error ? lastError.message : String(lastError);
-  throw new Error(`Prompt mutation failed after retry: ${message}`);
+  const message = lastError instanceof Error ? lastError.message : "No fallback provider succeeded";
+  throw new Error(`Prompt mutation failed: ${message}`);
 }

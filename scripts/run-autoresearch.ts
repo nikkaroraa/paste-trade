@@ -94,16 +94,6 @@ async function run() {
     )})`
   );
 
-  const hasKey = Boolean(
-    process.env.OPENAI_API_KEY || process.env.ANTHROPIC_API_KEY
-  );
-
-  if (!hasKey) {
-    console.log(
-      "No API key available for prompt mutation. Set OPENAI_API_KEY or ANTHROPIC_API_KEY to run autoresearch."
-    );
-    return;
-  }
 
   for (let i = 1; i <= iterations; i += 1) {
     let candidatePrompt = "";
