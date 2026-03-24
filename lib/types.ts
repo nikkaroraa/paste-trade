@@ -47,6 +47,29 @@ export interface Author {
   updated_at: string;
 }
 
+export interface User {
+  id: string;
+  email?: string;
+  name?: string;
+  image?: string;
+  github_handle?: string;
+  created_at: string;
+}
+
+export interface FollowedAuthor {
+  id: string;
+  user_id: string;
+  author_id: string;
+  created_at: string;
+}
+
+export interface WatchlistItem {
+  id: string;
+  user_id: string;
+  trade_id: string;
+  created_at: string;
+}
+
 export interface PriceSnapshot {
   id: string;
   trade_id: string;
@@ -85,6 +108,9 @@ export interface ExtractedTrade {
 export interface DbShape {
   trades: Trade[];
   authors: Author[];
+  users: User[];
+  watchlist: WatchlistItem[];
+  followed_authors: FollowedAuthor[];
   price_snapshots: PriceSnapshot[];
   markets: Market[];
 }

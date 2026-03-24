@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Activity, Percent, Trophy, TrendingUp } from "lucide-react";
+import { auth } from "@/auth";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { getAuthors, getTrades } from "@/lib/db";
+import { getAuthors, getFollowedAuthorIds, getTrades } from "@/lib/db";
 import { pct, relativeTime } from "@/components/common/format";
 import { LeaderboardTable } from "@/components/leaderboard/leaderboard-table";
 import { RefreshDataButton } from "@/components/common/refresh-data-button";
@@ -12,7 +13,13 @@ export const metadata: Metadata = {
 };
 
 export default async function LeaderboardPage() {
-  const [authors, trades] = await Promise.all([getAuthors(), getTrades()]);
+  const session = await auth();
+  const userId = session?.user?.id;
+  const [authors, trades, followedAuthorIds] = await Promise.all([
+    getAuthors(),
+    getTrades(),
+    userId ? getFollowedAuthorIds(userId) : Promise.resolve([]),
+  ]);
   const topPnl = Math.max(...authors.map((a) => a.best_trade_pnl), 0);
   const lastScrapedAt = trades[0]?.created_at;
 
@@ -54,7 +61,7 @@ export default async function LeaderboardPage() {
           </CardContent>
         </Card>
       ) : (
-        <LeaderboardTable authors={authors} lastScrapedAt={lastScrapedAt} />
+        <LeaderboardTable authors={authors} lastScrapedAt={lastScrapedAt} followedAuthorIds={followedAuthorIds} loggedIn={Boolean(userId)} />
       )}
     </section>
   );

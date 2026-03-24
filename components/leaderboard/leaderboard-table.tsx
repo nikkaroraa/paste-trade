@@ -7,10 +7,11 @@ import { Author } from "@/lib/types";
 import { pct, relativeTime } from "@/components/common/format";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import { FollowButton } from "@/components/authors/follow-button";
 
 type Key = "handle" | "platform" | "total_trades" | "win_rate" | "avg_pnl" | "best_trade_pnl" | "worst_trade_pnl";
 
-export function LeaderboardTable({ authors, lastScrapedAt }: { authors: Author[]; lastScrapedAt?: string }) {
+export function LeaderboardTable({ authors, lastScrapedAt, followedAuthorIds, loggedIn }: { authors: Author[]; lastScrapedAt?: string; followedAuthorIds: string[]; loggedIn: boolean }) {
   const [sortKey, setSortKey] = useState<Key>("avg_pnl");
   const [dir, setDir] = useState<"asc" | "desc">("desc");
   const [page, setPage] = useState(1);
@@ -63,6 +64,7 @@ export function LeaderboardTable({ authors, lastScrapedAt }: { authors: Author[]
               {head("Avg P&L", "avg_pnl")}
               {head("Best", "best_trade_pnl")}
               {head("Worst", "worst_trade_pnl")}
+              <TableHead>Follow</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -78,6 +80,7 @@ export function LeaderboardTable({ authors, lastScrapedAt }: { authors: Author[]
                 <TableCell className={`font-mono ${a.avg_pnl >= 0 ? "text-emerald-400" : "text-red-400"}`}>{pct(a.avg_pnl)}</TableCell>
                 <TableCell className="font-mono text-emerald-400">{pct(a.best_trade_pnl)}</TableCell>
                 <TableCell className="font-mono text-red-400">{pct(a.worst_trade_pnl)}</TableCell>
+                <TableCell><FollowButton authorId={a.id} initialFollowing={followedAuthorIds.includes(a.id)} disabled={!loggedIn} /></TableCell>
               </TableRow>
             ))}
           </TableBody>

@@ -1,34 +1,25 @@
-"use client";
-
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { AuthButton } from "@/components/auth/auth-button";
+import { NavLinks } from "@/components/common/nav-links";
 
-const links = [
-  { href: "/", label: "Leaderboard" },
-  { href: "/feed", label: "Live Feed" },
-  { href: "/markets", label: "Markets" },
-  { href: "/submit", label: "Submit" },
-];
-
-export function TopNav() {
-  const pathname = usePathname();
-
+export async function TopNav() {
   return (
     <header className="border-b border-zinc-800 bg-zinc-950/95 backdrop-blur">
-      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
-        <Link href="/" className="font-bold tracking-tight text-zinc-100">
-          paste.trade
-        </Link>
-        <nav className="flex items-center gap-2 text-sm text-zinc-400">
-          {links.map((l) => {
-            const active = pathname === l.href;
-            return (
-              <Link key={l.href} href={l.href} className={`rounded-md px-2 py-1 transition-colors ${active ? "bg-zinc-800 text-zinc-100" : "hover:text-zinc-100"}`}>
-                {l.label}
-              </Link>
-            );
-          })}
-        </nav>
+      <div className="mx-auto flex min-h-14 max-w-6xl flex-col gap-3 px-4 py-3 lg:flex-row lg:items-center lg:justify-between">
+        <div className="flex items-center justify-between gap-4">
+          <Link href="/" className="font-bold tracking-tight text-zinc-100">
+            paste.trade
+          </Link>
+          <div className="lg:hidden">
+            <AuthButton />
+          </div>
+        </div>
+        <div className="flex items-center justify-between gap-4">
+          <NavLinks />
+          <div className="hidden lg:block">
+            <AuthButton />
+          </div>
+        </div>
       </div>
     </header>
   );

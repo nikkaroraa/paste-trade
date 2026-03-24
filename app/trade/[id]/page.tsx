@@ -2,10 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AlertTriangle, Copy, ExternalLink } from "lucide-react";
+import { auth } from "@/auth";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getAuthorById, getSnapshotsByTradeId, getTradeById, getTrades } from "@/lib/db";
+import { FollowButton } from "@/components/authors/follow-button";
+import { WatchButton } from "@/components/trades/watch-button";
+import { getAuthorById, getFollowedAuthorIds, getSnapshotsByTradeId, getTradeById, getTrades, getWatchedTradeIds } from "@/lib/db";
 import { pct, usd, pnlColor, truncate } from "@/components/common/format";
 import { PnlChart } from "@/components/common/pnl-chart";
 
@@ -13,13 +16,17 @@ export const metadata: Metadata = { title: "Trade Detail | paste.trade" };
 
 export default async function TradeDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
+  const session = await auth();
+  const userId = session?.user?.id;
   const trade = await getTradeById(id);
   if (!trade) return notFound();
 
-  const [author, snapshots, related] = await Promise.all([
+  const [author, snapshots, related, watchedTradeIds, followedAuthorIds] = await Promise.all([
     getAuthorById(trade.author_id),
     getSnapshotsByTradeId(trade.id),
     getTrades().then((list) => list.filter((t) => t.ticker === trade.ticker && t.id !== trade.id).slice(0, 4)),
+    userId ? getWatchedTradeIds(userId) : Promise.resolve([]),
+    userId ? getFollowedAuthorIds(userId) : Promise.resolve([]),
   ]);
 
   const catalysts = (trade.thesis ?? "").split(".").map((s) => s.trim()).filter(Boolean).slice(0, 3);
@@ -28,7 +35,7 @@ export default async function TradeDetailPage({ params }: { params: Promise<{ id
     <section className="space-y-4">
       <Card className="border-zinc-800 bg-zinc-900">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-2xl">{trade.ticker} <Badge variant="secondary">{trade.direction}</Badge></CardTitle>
+          <CardTitle className="flex flex-wrap items-center gap-2 text-2xl">{trade.ticker} <Badge variant="secondary">{trade.direction}</Badge></CardTitle>
         </CardHeader>
         <CardContent className="space-y-4 text-sm text-zinc-300">
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
@@ -39,8 +46,10 @@ export default async function TradeDetailPage({ params }: { params: Promise<{ id
           <blockquote className="rounded-md border-l-2 border-emerald-500 bg-zinc-950 p-3 text-zinc-200">{trade.thesis || "No thesis"}</blockquote>
           <div className="flex flex-wrap gap-2">{catalysts.map((c) => <Badge key={c} variant="secondary">{truncate(c, 40)}</Badge>)}</div>
           <div className="rounded-md border border-amber-500/30 bg-amber-500/10 p-3 text-amber-200"><AlertTriangle className="mr-2 inline size-4" /> Risks: market volatility, execution slippage, thesis invalidation.</div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             {trade.source_url ? <Link href={trade.source_url} target="_blank"><Button className="bg-emerald-600 text-zinc-950 hover:bg-emerald-500"><ExternalLink className="mr-2 size-4" />View Original Source</Button></Link> : null}
+            <WatchButton tradeId={trade.id} initialWatched={watchedTradeIds.includes(trade.id)} disabled={!userId} />
+            {author ? <FollowButton authorId={author.id} initialFollowing={followedAuthorIds.includes(author.id)} disabled={!userId} /> : null}
             <Button variant="outline" className="border-zinc-700" disabled><Copy className="mr-2 size-4" />Share link</Button>
           </div>
           <p className="text-xs text-zinc-400">Author: @{author?.handle || "unknown"}</p>

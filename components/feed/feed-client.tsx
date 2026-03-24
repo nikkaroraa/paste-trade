@@ -8,11 +8,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { pnlColor, pct, relativeTime, truncate, usd } from "@/components/common/format";
+import { WatchButton } from "@/components/trades/watch-button";
+import { FollowButton } from "@/components/authors/follow-button";
 import { Author, Trade } from "@/lib/types";
 
 const PAGE_SIZE = 20;
 
-export function FeedClient({ initialTrades, authors }: { initialTrades: Trade[]; authors: Author[] }) {
+export function FeedClient({ initialTrades, authors, watchedTradeIds, followedAuthorIds, loggedIn }: { initialTrades: Trade[]; authors: Author[]; watchedTradeIds: string[]; followedAuthorIds: string[]; loggedIn: boolean }) {
   const [trades, setTrades] = useState(initialTrades);
   const [query, setQuery] = useState("");
   const [visible, setVisible] = useState(PAGE_SIZE);
@@ -74,6 +76,7 @@ export function FeedClient({ initialTrades, authors }: { initialTrades: Trade[];
         {filtered.slice(0, visible).map((trade) => {
           const isOpen = expanded[trade.id];
           const sourceIcon = trade.source === "reddit" ? <Radio className="size-3" /> : <Newspaper className="size-3" />;
+          const author = authorMap.get(trade.author_id);
           return (
             <Card key={trade.id} className="border-zinc-800 bg-zinc-900 transition-colors hover:border-zinc-700">
               <CardHeader className="pb-2">
@@ -87,7 +90,7 @@ export function FeedClient({ initialTrades, authors }: { initialTrades: Trade[];
                   <span className={`font-mono text-xl ${pnlColor(trade.pnl_percent)}`}>{pct(trade.pnl_percent)}</span>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-2 text-sm">
+              <CardContent className="space-y-3 text-sm">
                 <div className="font-mono text-zinc-300">Entry {usd(trade.entry_price)} · Current {usd(trade.current_price)}</div>
                 <p className="text-zinc-300">
                   {isOpen ? trade.thesis : truncate(trade.thesis, 300)}
@@ -101,12 +104,16 @@ export function FeedClient({ initialTrades, authors }: { initialTrades: Trade[];
                   <Badge variant="secondary">{trade.confidence || "low"}</Badge>
                   <Badge variant="secondary">{trade.timeframe || "unknown"}</Badge>
                   <span className="inline-flex items-center gap-1">{sourceIcon} {trade.source}</span>
-                  <span>@{authorMap.get(trade.author_id)?.handle || "unknown"}</span>
+                  <span>@{author?.handle || "unknown"}</span>
                   <span title={trade.posted_at}>{relativeTime(trade.posted_at)}</span>
                 </div>
-                <Link href={`/trade/${trade.id}`} className="text-xs text-emerald-400 hover:text-emerald-300">
-                  Open detail page
-                </Link>
+                <div className="flex flex-wrap gap-2">
+                  <Link href={`/trade/${trade.id}`} className="text-xs text-emerald-400 hover:text-emerald-300">
+                    Open detail page
+                  </Link>
+                  {author ? <FollowButton authorId={author.id} initialFollowing={followedAuthorIds.includes(author.id)} disabled={!loggedIn} /> : null}
+                  <WatchButton tradeId={trade.id} initialWatched={watchedTradeIds.includes(trade.id)} disabled={!loggedIn} />
+                </div>
               </CardContent>
             </Card>
           );

@@ -1,13 +1,16 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import crypto from "node:crypto";
-import { Author, DbShape, Market, PriceSnapshot, Trade } from "./types";
+import { Author, DbShape, FollowedAuthor, Market, PriceSnapshot, Trade, User, WatchlistItem } from "./types";
 
 const dbPath = path.join(process.cwd(), "data", "db.json");
 
 const emptyDb: DbShape = {
   trades: [],
   authors: [],
+  users: [],
+  watchlist: [],
+  followed_authors: [],
   price_snapshots: [],
   markets: [],
 };
@@ -208,4 +211,102 @@ export async function recomputeAuthorStats() {
   });
 
   await writeDb(db);
+}
+
+
+export async function upsertUser(input: Pick<User, "id"> & Partial<User>) {
+  const db = await readDb();
+  const existing = db.users.find((u) => u.id === input.id);
+  if (existing) {
+    const updated = { ...existing, ...input } as User;
+    db.users = db.users.map((u) => (u.id === existing.id ? updated : u));
+    await writeDb(db);
+    return updated;
+  }
+
+  const user: User = {
+    id: input.id,
+    email: input.email,
+    name: input.name,
+    image: input.image,
+    github_handle: input.github_handle,
+    created_at: now(),
+  };
+  db.users.push(user);
+  await writeDb(db);
+  return user;
+}
+
+export async function getUserById(userId: string) {
+  const db = await readDb();
+  return db.users.find((u) => u.id === userId);
+}
+
+export async function getFollowerCount(authorId: string) {
+  const db = await readDb();
+  return db.followed_authors.filter((f) => f.author_id === authorId).length;
+}
+
+export async function getFollowedAuthorIds(userId: string) {
+  const db = await readDb();
+  return db.followed_authors.filter((f) => f.user_id === userId).map((f) => f.author_id);
+}
+
+export async function followAuthor(userId: string, authorId: string) {
+  const db = await readDb();
+  const existing = db.followed_authors.find((f) => f.user_id === userId && f.author_id === authorId);
+  if (existing) return existing;
+  const follow: FollowedAuthor = { id: id(), user_id: userId, author_id: authorId, created_at: now() };
+  db.followed_authors.push(follow);
+  await writeDb(db);
+  return follow;
+}
+
+export async function unfollowAuthor(userId: string, authorId: string) {
+  const db = await readDb();
+  db.followed_authors = db.followed_authors.filter((f) => !(f.user_id === userId && f.author_id === authorId));
+  await writeDb(db);
+}
+
+export async function getFollowedAuthors(userId: string) {
+  const db = await readDb();
+  return db.followed_authors.filter((f) => f.user_id === userId);
+}
+
+export async function getTradesForFollowedAuthors(userId: string) {
+  const db = await readDb();
+  const authorIds = new Set(db.followed_authors.filter((f) => f.user_id === userId).map((f) => f.author_id));
+  return db.trades.filter((t) => authorIds.has(t.author_id));
+}
+
+export async function getWatchedTradeIds(userId: string) {
+  const db = await readDb();
+  return db.watchlist.filter((w) => w.user_id === userId).map((w) => w.trade_id);
+}
+
+export async function addToWatchlist(userId: string, tradeId: string) {
+  const db = await readDb();
+  const existing = db.watchlist.find((w) => w.user_id === userId && w.trade_id === tradeId);
+  if (existing) return existing;
+  const item: WatchlistItem = { id: id(), user_id: userId, trade_id: tradeId, created_at: now() };
+  db.watchlist.push(item);
+  await writeDb(db);
+  return item;
+}
+
+export async function removeFromWatchlist(userId: string, tradeId: string) {
+  const db = await readDb();
+  db.watchlist = db.watchlist.filter((w) => !(w.user_id === userId && w.trade_id === tradeId));
+  await writeDb(db);
+}
+
+export async function getWatchlist(userId: string) {
+  const db = await readDb();
+  return db.watchlist.filter((w) => w.user_id === userId);
+}
+
+export async function getWatchlistTrades(userId: string) {
+  const db = await readDb();
+  const tradeIds = new Set(db.watchlist.filter((w) => w.user_id === userId).map((w) => w.trade_id));
+  return db.trades.filter((t) => tradeIds.has(t.id));
 }

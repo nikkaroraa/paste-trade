@@ -1,28 +1,42 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { BarChart3, Trophy, TrendingUp, UserCircle2 } from "lucide-react";
+import { BarChart3, Trophy, TrendingUp, UserCircle2, Users } from "lucide-react";
+import { auth } from "@/auth";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { getAuthorById, getTrades } from "@/lib/db";
+import { FollowButton } from "@/components/authors/follow-button";
+import { getAuthorById, getFollowedAuthorIds, getFollowerCount, getTrades } from "@/lib/db";
 import { pct } from "@/components/common/format";
 
 export const metadata: Metadata = { title: "Author Profile | paste.trade" };
 
 export default async function AuthorPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
+  const session = await auth();
+  const userId = session?.user?.id;
   const author = await getAuthorById(id);
   if (!author) return notFound();
-  const trades = (await getTrades()).filter((t) => t.author_id === id);
+  const [trades, followerCount, followedAuthorIds] = await Promise.all([
+    getTrades().then((list) => list.filter((t) => t.author_id === id)),
+    getFollowerCount(id),
+    userId ? getFollowedAuthorIds(userId) : Promise.resolve([]),
+  ]);
   const best = [...trades].sort((a, b) => (b.pnl_percent ?? 0) - (a.pnl_percent ?? 0))[0];
   const worst = [...trades].sort((a, b) => (a.pnl_percent ?? 0) - (b.pnl_percent ?? 0))[0];
   const initials = author.handle.slice(0, 2).toUpperCase();
 
   return (
     <section className="space-y-4">
-      <div className="flex items-center gap-3">
-        <div className="flex size-12 items-center justify-center rounded-full bg-zinc-800 text-sm font-bold">{initials}</div>
-        <h1 className="text-2xl font-bold tracking-tight">@{author.handle}</h1>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <div className="flex size-12 items-center justify-center rounded-full bg-zinc-800 text-sm font-bold">{initials}</div>
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight">@{author.handle}</h1>
+            <p className="mt-1 flex items-center gap-2 text-sm text-zinc-400"><Users className="size-4" /> {followerCount} followers</p>
+          </div>
+        </div>
+        <FollowButton authorId={author.id} initialFollowing={followedAuthorIds.includes(author.id)} disabled={!userId} />
       </div>
 
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">

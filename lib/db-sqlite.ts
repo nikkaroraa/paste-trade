@@ -2,13 +2,14 @@ import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
 import Database from "better-sqlite3";
-import { Author, Market, PriceSnapshot, Trade } from "./types";
+import { Author, FollowedAuthor, Market, PriceSnapshot, Trade, User, WatchlistItem } from "./types";
 
 const dbFile = path.join(process.cwd(), "data", "paste-trade.db");
 fs.mkdirSync(path.dirname(dbFile), { recursive: true });
 
 const db = new Database(dbFile);
 db.pragma("journal_mode = WAL");
+db.pragma("foreign_keys = ON");
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS authors (
@@ -56,6 +57,31 @@ db.exec(`
     updated_at TEXT DEFAULT (datetime('now'))
   );
 
+  CREATE TABLE IF NOT EXISTS users (
+    id TEXT PRIMARY KEY,
+    email TEXT UNIQUE,
+    name TEXT,
+    image TEXT,
+    github_handle TEXT,
+    created_at TEXT DEFAULT (datetime('now'))
+  );
+
+  CREATE TABLE IF NOT EXISTS watchlist (
+    id TEXT PRIMARY KEY,
+    user_id TEXT REFERENCES users(id),
+    trade_id TEXT REFERENCES trades(id),
+    created_at TEXT DEFAULT (datetime('now')),
+    UNIQUE(user_id, trade_id)
+  );
+
+  CREATE TABLE IF NOT EXISTS followed_authors (
+    id TEXT PRIMARY KEY,
+    user_id TEXT REFERENCES users(id),
+    author_id TEXT REFERENCES authors(id),
+    created_at TEXT DEFAULT (datetime('now')),
+    UNIQUE(user_id, author_id)
+  );
+
   CREATE TABLE IF NOT EXISTS price_snapshots (
     id TEXT PRIMARY KEY,
     trade_id TEXT REFERENCES trades(id),
@@ -91,13 +117,13 @@ function mapTrade(row: Record<string, unknown>): Trade {
     source_url: row.source_url ? String(row.source_url) : undefined,
     source_post_id: row.source_post_id ? String(row.source_post_id) : undefined,
     thesis: row.thesis ? String(row.thesis) : undefined,
-    confidence: row.confidence ? (String(row.confidence) as Trade['confidence']) : undefined,
+    confidence: row.confidence ? (String(row.confidence) as Trade["confidence"]) : undefined,
     timeframe: row.timeframe ? String(row.timeframe) : undefined,
-    entry_price: typeof row.entry_price === 'number' ? row.entry_price : row.entry_price == null ? undefined : Number(row.entry_price),
-    current_price: typeof row.current_price === 'number' ? row.current_price : row.current_price == null ? undefined : Number(row.current_price),
-    pnl_percent: typeof row.pnl_percent === 'number' ? row.pnl_percent : row.pnl_percent == null ? undefined : Number(row.pnl_percent),
-    entry_odds: typeof row.entry_odds === 'number' ? row.entry_odds : row.entry_odds == null ? undefined : Number(row.entry_odds),
-    current_odds: typeof row.current_odds === 'number' ? row.current_odds : row.current_odds == null ? undefined : Number(row.current_odds),
+    entry_price: typeof row.entry_price === "number" ? row.entry_price : row.entry_price == null ? undefined : Number(row.entry_price),
+    current_price: typeof row.current_price === "number" ? row.current_price : row.current_price == null ? undefined : Number(row.current_price),
+    pnl_percent: typeof row.pnl_percent === "number" ? row.pnl_percent : row.pnl_percent == null ? undefined : Number(row.pnl_percent),
+    entry_odds: typeof row.entry_odds === "number" ? row.entry_odds : row.entry_odds == null ? undefined : Number(row.entry_odds),
+    current_odds: typeof row.current_odds === "number" ? row.current_odds : row.current_odds == null ? undefined : Number(row.current_odds),
     resolution: row.resolution ? String(row.resolution) : undefined,
     venue: row.venue ? String(row.venue) : undefined,
     posted_at: row.posted_at ? String(row.posted_at) : undefined,
@@ -117,6 +143,35 @@ function mapAuthor(row: Record<string, unknown>): Author {
     total_pnl: Number(row.total_pnl ?? 0),
     best_trade_pnl: Number(row.best_trade_pnl ?? 0),
     worst_trade_pnl: Number(row.worst_trade_pnl ?? 0),
+  };
+}
+
+function mapUser(row: Record<string, unknown>): User {
+  return {
+    id: String(row.id),
+    email: row.email ? String(row.email) : undefined,
+    name: row.name ? String(row.name) : undefined,
+    image: row.image ? String(row.image) : undefined,
+    github_handle: row.github_handle ? String(row.github_handle) : undefined,
+    created_at: String(row.created_at),
+  };
+}
+
+function mapWatchlistItem(row: Record<string, unknown>): WatchlistItem {
+  return {
+    id: String(row.id),
+    user_id: String(row.user_id),
+    trade_id: String(row.trade_id),
+    created_at: String(row.created_at),
+  };
+}
+
+function mapFollowedAuthor(row: Record<string, unknown>): FollowedAuthor {
+  return {
+    id: String(row.id),
+    user_id: String(row.user_id),
+    author_id: String(row.author_id),
+    created_at: String(row.created_at),
   };
 }
 
@@ -284,6 +339,47 @@ export async function upsertAuthor(input: Pick<Author, "handle" | "platform"> & 
   return author;
 }
 
+export async function upsertUser(input: Pick<User, "id"> & Partial<User>) {
+  const existing = db.prepare("SELECT * FROM users WHERE id = ?").get(input.id) as Record<string, unknown> | undefined;
+
+  if (existing) {
+    const merged = {
+      ...mapUser(existing),
+      ...input,
+      id: String(existing.id),
+      created_at: String(existing.created_at),
+    } as User;
+
+    db.prepare(`
+      UPDATE users SET
+        email = @email,
+        name = @name,
+        image = @image,
+        github_handle = @github_handle
+      WHERE id = @id
+    `).run(merged);
+
+    return merged;
+  }
+
+  const user: User = {
+    id: input.id,
+    email: input.email,
+    name: input.name,
+    image: input.image,
+    github_handle: input.github_handle,
+    created_at: now(),
+  };
+
+  db.prepare("INSERT INTO users (id, email, name, image, github_handle, created_at) VALUES (@id, @email, @name, @image, @github_handle, @created_at)").run(user);
+  return user;
+}
+
+export async function getUserById(userId: string) {
+  const row = db.prepare("SELECT * FROM users WHERE id = ?").get(userId) as Record<string, unknown> | undefined;
+  return row ? mapUser(row) : undefined;
+}
+
 export async function getAuthors() {
   const rows = db.prepare("SELECT * FROM authors ORDER BY total_pnl DESC, win_rate DESC, total_trades DESC").all() as Record<string, unknown>[];
   return rows.map(mapAuthor);
@@ -292,6 +388,83 @@ export async function getAuthors() {
 export async function getAuthorById(authorId: string) {
   const row = db.prepare("SELECT * FROM authors WHERE id = ?").get(authorId) as Record<string, unknown> | undefined;
   return row ? mapAuthor(row) : undefined;
+}
+
+export async function getFollowerCount(authorId: string) {
+  const row = db.prepare("SELECT COUNT(*) as count FROM followed_authors WHERE author_id = ?").get(authorId) as { count: number };
+  return Number(row?.count ?? 0);
+}
+
+export async function getFollowedAuthorIds(userId: string) {
+  const rows = db.prepare("SELECT author_id FROM followed_authors WHERE user_id = ?").all(userId) as Array<{ author_id: string }>;
+  return rows.map((row) => row.author_id);
+}
+
+export async function followAuthor(userId: string, authorId: string) {
+  const follow: FollowedAuthor = { id: id(), user_id: userId, author_id: authorId, created_at: now() };
+  db.prepare("INSERT OR IGNORE INTO followed_authors (id, user_id, author_id, created_at) VALUES (@id, @user_id, @author_id, @created_at)").run(follow);
+  return follow;
+}
+
+export async function unfollowAuthor(userId: string, authorId: string) {
+  db.prepare("DELETE FROM followed_authors WHERE user_id = ? AND author_id = ?").run(userId, authorId);
+}
+
+export async function getFollowedAuthors(userId: string) {
+  const rows = db.prepare(`
+    SELECT fa.*
+    FROM followed_authors fa
+    WHERE fa.user_id = ?
+    ORDER BY fa.created_at DESC
+  `).all(userId) as Record<string, unknown>[];
+  return rows.map(mapFollowedAuthor);
+}
+
+export async function getTradesForFollowedAuthors(userId: string) {
+  const rows = db.prepare(`
+    SELECT t.*
+    FROM trades t
+    INNER JOIN followed_authors fa ON fa.author_id = t.author_id
+    WHERE fa.user_id = ?
+    ORDER BY COALESCE(t.posted_at, t.created_at) DESC, t.created_at DESC
+  `).all(userId) as Record<string, unknown>[];
+  return rows.map(mapTrade);
+}
+
+export async function getWatchedTradeIds(userId: string) {
+  const rows = db.prepare("SELECT trade_id FROM watchlist WHERE user_id = ?").all(userId) as Array<{ trade_id: string }>;
+  return rows.map((row) => row.trade_id);
+}
+
+export async function addToWatchlist(userId: string, tradeId: string) {
+  const item: WatchlistItem = { id: id(), user_id: userId, trade_id: tradeId, created_at: now() };
+  db.prepare("INSERT OR IGNORE INTO watchlist (id, user_id, trade_id, created_at) VALUES (@id, @user_id, @trade_id, @created_at)").run(item);
+  return item;
+}
+
+export async function removeFromWatchlist(userId: string, tradeId: string) {
+  db.prepare("DELETE FROM watchlist WHERE user_id = ? AND trade_id = ?").run(userId, tradeId);
+}
+
+export async function getWatchlist(userId: string) {
+  const rows = db.prepare(`
+    SELECT w.*
+    FROM watchlist w
+    WHERE w.user_id = ?
+    ORDER BY w.created_at DESC
+  `).all(userId) as Record<string, unknown>[];
+  return rows.map(mapWatchlistItem);
+}
+
+export async function getWatchlistTrades(userId: string) {
+  const rows = db.prepare(`
+    SELECT t.*
+    FROM trades t
+    INNER JOIN watchlist w ON w.trade_id = t.id
+    WHERE w.user_id = ?
+    ORDER BY w.created_at DESC
+  `).all(userId) as Record<string, unknown>[];
+  return rows.map(mapTrade);
 }
 
 export async function saveSnapshot(input: Omit<PriceSnapshot, "id" | "snapshot_at"> & Partial<Pick<PriceSnapshot, "snapshot_at">>) {
